@@ -74,13 +74,14 @@ public class UserController {
 		return user;
 	}
 	
+	@CrossOrigin
 	@RequestMapping(path="/validatedUser", method=RequestMethod.POST)
-	public @ResponseBody boolean validatedUser 
+	public @ResponseBody User validatedUser 
 	(
 			@RequestParam String username, @RequestParam String password) {
 		
 		User user = userRepositoryDAO.findByUsernameAndPassword(username, password);
-		return user != null;
+		return user;
 	}
 	
 	
