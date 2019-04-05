@@ -1,5 +1,7 @@
 package com.twitter.services;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -106,15 +108,19 @@ public class UserController {
 		return userOptional.get().getTweets();
 	}
 	
+	
+	@CrossOrigin
 	@RequestMapping(path="/getAllTweetByUsername", method=RequestMethod.POST)
-	public @ResponseBody Set<Tweet> getAllTweetByUsername 
+	public @ResponseBody ArrayList<Tweet> getAllTweetByUsername 
 	(
 			@RequestParam String username) {
 		
 		User user = userRepositoryDAO.findByUsername(username);
 		
 		if(user == null) return null;
-		return user.getTweets();
+		ArrayList<Tweet> list = new ArrayList<Tweet>(user.getTweets());
+		Collections.sort(list, (x,y) -> {return x.getDateTweet().compareTo(y.getDateTweet());});
+		return list;
 	}
 	
 	

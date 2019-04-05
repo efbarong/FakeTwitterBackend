@@ -1,10 +1,13 @@
 package com.twitter.entities;
 
 import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TimeZone;
 import java.util.TreeMap;
 
 import javax.persistence.Column;
@@ -44,7 +47,7 @@ public class Tweet {
 	private String contentTweet;
 
 	@Column(name = "date_tweet", nullable = false)
-	private Date dateTweet;
+	private Timestamp dateTweet;
 
 	@Column(name = "attachment")
 	private String attachment;
@@ -95,7 +98,10 @@ public class Tweet {
 
 	
 	public Tweet() {
-		this.dateTweet = new Date(System.currentTimeMillis());
+		TimeZone.setDefault(TimeZone.getTimeZone("GMT-5"));
+		Timestamp actual = new Timestamp(System.currentTimeMillis());
+		this.dateTweet = new Timestamp(Timestamp.valueOf(actual.toString()).getTime());
+		System.out.println(dateTweet);
 	}
 
 	public Tweet(User user, Tweet tweetComTweet) {
@@ -126,7 +132,7 @@ public class Tweet {
 		return idTweet;
 	}
 
-	public Date getDateTweet() {
+	public Timestamp getDateTweet() {
 		return dateTweet;
 	}
 
